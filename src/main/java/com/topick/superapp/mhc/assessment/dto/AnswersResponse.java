@@ -14,4 +14,5 @@ public class AnswersResponse {
     private UUID questionId;
     private String questionText;
     private Integer score;
+    private boolean isCrisisQuestion;
 }

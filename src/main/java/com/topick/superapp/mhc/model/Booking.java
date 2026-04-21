@@ -3,9 +3,9 @@ package com.topick.superapp.mhc.model;
 import com.topick.superapp.mhc.enums.BookingStatus;
 import com.topick.superapp.mhc.enums.PaymentStatus;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Nationalized;
 
 import java.time.Instant;
@@ -15,6 +15,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "bookings")
 public class Booking {
     @Id
@@ -40,6 +43,7 @@ public class Booking {
     private String meetingChannel;
 
     @Column(name = "created_at")
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
 }

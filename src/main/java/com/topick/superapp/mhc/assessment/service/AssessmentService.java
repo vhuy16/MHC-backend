@@ -148,6 +148,7 @@ public class AssessmentService {
                            .map(answer -> AnswersResponse.builder()
                                    .questionId(answer.getQuestion().getId())
                                    .questionText(answer.getQuestion().getQuestionText())
+                                   .isCrisisQuestion(answer.getQuestion().getQuestionOrder() == 9)
                                    .score(answer.getScore())
                                    .build())
                            .toList()

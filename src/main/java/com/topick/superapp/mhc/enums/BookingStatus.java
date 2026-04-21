@@ -1,5 +1,5 @@
 package com.topick.superapp.mhc.enums;
 
 public enum BookingStatus {
-    PENDING, CONFIRMED, CANCELLED
+    PENDING, CONFIRMED, CANCELLED, DONE
 }
