@@ -30,6 +30,7 @@ public class BookingScheduler {
             booking.setStatus(BookingStatus.CANCELLED);
             booking.getAvailability().setStatus("AVAILABLE");
             bookingRepository.save(booking);
+            doctorAvailabilityRepository.save(booking.getAvailability());
 
         }
     }
