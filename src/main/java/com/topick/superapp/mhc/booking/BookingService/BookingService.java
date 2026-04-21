@@ -50,7 +50,7 @@ public class BookingService {
         Booking booking = Booking.builder()
                 .patient(patient)
                 .availability(doctorAvailability)
-
+                .doctor(doctorAvailability.getDoctor())
                 .status(BookingStatus.PENDING)
                 .paymentStatus(PaymentStatus.PENDING)
                 .build();

@@ -38,9 +38,9 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private PaymentStatus paymentStatus;
 
-    @Nationalized
-    @Column(name = "meeting_channel")
-    private String meetingChannel;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "doctor_id", nullable = false)
+    private Doctor doctor;
 
     @Column(name = "created_at")
     @CreationTimestamp

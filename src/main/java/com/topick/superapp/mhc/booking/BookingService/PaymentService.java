@@ -33,6 +33,10 @@ public class PaymentService {
         WebhookData data = payOS.webhooks().verify(body);
         Payment payment = paymentRepository.findByTransactionId(String.valueOf(data.getOrderCode()))
                 .orElseThrow(() -> new RuntimeException("Payment not found"));
+        if (payment.getStatus() == PaymentStatus.PAID ||
+                payment.getStatus() == PaymentStatus.FAILED) {
+            return new ApiResponse("Already processed", true, null);
+        }
         if(data.getCode().equals("00")){
 
             payment.setStatus(PaymentStatus.PAID);
