@@ -1,6 +1,7 @@
 package com.topick.superapp.mhc.model;
 
 import com.topick.superapp.mhc.enums.BookingStatus;
+import com.topick.superapp.mhc.enums.CompletedBy;
 import com.topick.superapp.mhc.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -45,5 +46,13 @@ public class Booking {
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
+    @Column(name = "agora_channel_name", nullable = false, updatable = false)
+    private UUID agoraChannelName; // Khớp với UNIQUEIDENTIFIER
+
+    @Enumerated(EnumType.STRING)
+    private CompletedBy completedBy;
+
+    @Column(name = "no_show_patient", nullable = false, columnDefinition = "BIT DEFAULT 0")
+    private boolean noShowPatient = false;
 
 }

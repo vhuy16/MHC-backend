@@ -41,4 +41,12 @@ public class AssessmentController {
         }
         return ResponseEntity.badRequest().body(response);
     }
+    @GetMapping("/getAllQuestionnaires")
+    public ResponseEntity<ApiResponse> getAllQuestionnaires() {
+        ApiResponse response = assessmentService.getAllQuestionnaires();
+        if(response.isSuccess()){
+            return ResponseEntity.ok(response);
+        }
+        return ResponseEntity.badRequest().body(response);
+    }
 }

@@ -16,9 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -175,6 +173,32 @@ public class AssessmentService {
 //       }else if(role == Role.DOCTOR){
 //
 //       }
+public ApiResponse getAllQuestionnaires() {
+    // Lấy danh sách từ DB thông qua JpaRepository
+    List<Questionnaire> questionnaires = questionnaireRepository.findAll();
+
+    if (questionnaires.isEmpty()) {
+        return new ApiResponse("Không tìm thấy questionnaires nào", false, null);
+    }
+
+    List<Map<String, Object>> responseList = questionnaires.stream()
+            .map(q -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("id", q.getId());
+                map.put("code", q.getCode());
+                map.put("name", q.getName());
+                map.put("description", q.getDescription());
+                map.put("createdAt", q.getCreatedAt());
+                return map;
+            })
+            .collect(Collectors.toList());
+
+    return new ApiResponse(
+            "Lấy danh sách questionnaires thành công",
+            true,
+            responseList
+    );
+}
    }
 
 

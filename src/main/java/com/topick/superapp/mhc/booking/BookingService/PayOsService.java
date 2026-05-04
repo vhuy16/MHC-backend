@@ -26,8 +26,8 @@ public class PayOsService {
                     .orderCode(orderCode)
                     .amount(createPaymentRequest.getAmount())
                     .description(description)
-                    .returnUrl("https://your-url.com/success")
-                    .cancelUrl("https://your-url.com/cancel")
+                    .returnUrl("http://localhost:5173/payment/success")
+                    .cancelUrl("http://localhost:5173/payment/cancel")
                     .build();
     try{
         CreatePaymentLinkResponse response = payOS.paymentRequests().create(paymentData);
