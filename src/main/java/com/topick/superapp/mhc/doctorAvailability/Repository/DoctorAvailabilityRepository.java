@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.rmi.server.UID;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 @Repository
@@ -29,4 +30,6 @@ public interface DoctorAvailabilityRepository  extends JpaRepository<DoctorAvail
     @Query(value = "UPDATE doctor_availability  SET status = 'PENDING' WHERE id = :avaiId AND status = 'AVAILABLE'", nativeQuery = true)
     Integer executeUpdate(@Param("avaiId") UUID availabilityId);
 
+    List<DoctorAvailability> findByDoctorIdAndStatus(UUID id, String available);
+    List<DoctorAvailability> findAllByDoctorIdAndDateIn(UUID doctorId, List<LocalDate> dates);
 }

@@ -48,9 +48,12 @@ public class SecurityConfigConfiguration {
                 .requestMatchers(HttpMethod.POST, "/api/doctor/availability").hasRole("DOCTOR")
                 .requestMatchers(HttpMethod.GET, "/api/doctor/availability").hasRole("DOCTOR")
                 .requestMatchers(HttpMethod.POST, "/api/booking").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.GET, "/api/v1/doctors").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/doctors/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/booking/webhook").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/doctor/availability/**").hasRole("DOCTOR")
             .requestMatchers(HttpMethod.GET, "/api/assessments/questionnaire?code=PHQ9").hasRole("PATIENT")
+                .requestMatchers(HttpMethod.GET, "/api/assessments/getAllQuestionnaires").hasRole("PATIENT")
                 .anyRequest().authenticated()
         );
 
