@@ -5,6 +5,8 @@ import com.topick.superapp.mhc.Util.SecurityUtils;
 import com.topick.superapp.mhc.auth.repository.PatientRepository;
 import com.topick.superapp.mhc.booking.BookingRepository.BookingRepository;
 import com.topick.superapp.mhc.booking.BookingRepository.PaymentRepository;
+import com.topick.superapp.mhc.booking.Dto.BookingDetailResponse;
+import com.topick.superapp.mhc.booking.Dto.BookingResponse;
 import com.topick.superapp.mhc.booking.Dto.CreateBookingRequest;
 import com.topick.superapp.mhc.booking.Dto.CreatePaymentRequest;
 import com.topick.superapp.mhc.doctorAvailability.Repository.DoctorAvailabilityRepository;
@@ -18,6 +20,7 @@ import vn.payos.model.v2.paymentRequests.CreatePaymentLinkResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -71,5 +74,41 @@ public class BookingService {
                 .build();
         paymentRepository.save(payment);
         return new ApiResponse("Tạo booking thành công", true, paymentResponse.getCheckoutUrl());
+    }
+    public ApiResponse getDoctorBookings(UUID doctorId, BookingStatus status) {
+        List<Booking> bookings = bookingRepository.findDoctorBookingsWithFilter(doctorId, status);
+
+        List<BookingResponse> responseList = bookings.stream().map(b -> BookingResponse.builder()
+                .id(b.getId())
+                .patientName(b.getPatient().getFullName()) // Giả sử model Patient có hàm getFullName()
+                .date(b.getAvailability().getDate())
+                .startTime(b.getAvailability().getStartTime())
+                .endTime(b.getAvailability().getEndTime())
+                .status(b.getStatus())
+                .paymentStatus(b.getPaymentStatus())
+                .build()
+        ).toList();
+
+        return new ApiResponse("Lấy danh sách lịch hẹn thành công", true, responseList);
+    }
+
+    public ApiResponse getBookingDetail(UUID bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy lịch hẹn"));
+
+        BookingDetailResponse detailResponse = BookingDetailResponse.builder()
+                .id(booking.getId())
+                .patientId(booking.getPatient().getId())
+                .patientName(booking.getPatient().getFullName())
+                .patientPhone(booking.getPatient().getPhone()) // Giả sử có getPhone()
+                .date(booking.getAvailability().getDate())
+                .startTime(booking.getAvailability().getStartTime())
+                .endTime(booking.getAvailability().getEndTime())
+                .status(booking.getStatus())
+                .paymentStatus(booking.getPaymentStatus())
+                // .note(booking.getNote()) // Nếu có field ghi chú triệu chứng
+                .build();
+
+        return new ApiResponse("Lấy chi tiết lịch hẹn thành công", true, detailResponse);
     }
 }
